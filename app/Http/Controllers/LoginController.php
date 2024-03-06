@@ -29,7 +29,7 @@ class LoginController extends Controller
             // $request->authenticate();
             $request->session()->regenerate();
             
-            return redirect('kategori');
+            return redirect('dash');
         } else{
             return redirect('')->withErrors('username dan password yang dimasukkan salah')->withInput();
         }

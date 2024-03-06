@@ -11,7 +11,7 @@
                    </div>
                    <div class="ms-auto">
                        <button type="button" class="btn btn-outline-primary" id="btnAdd" data-coreui-toggle="modal"
-                           data-coreui-target="#modalMaster">Tambah Barang</button>
+                           data-coreui-target="#modalMaster">Tambah Produk</button>
                    </div>
                </div>
 
@@ -57,50 +57,59 @@
 
                                <input type="hidden" value="add" name="action">
                                <input type="hidden" value="" name="getId">
-                               <div class=" mb-3">
-                                   <input type="text" class="form-control" name="nama_produk" placeholder="Nama"
-                                       aria-label="Nama Produk" required>
-                               </div>
-                               <div class=" mb-3">
-                                   <select class="form-select" id="kategori" name="id_kategori" aria-label="Kategori"
-                                       required>
-                                       {{-- <option selected disabled value="mstr">Kategori</option>
-                                    <option value="1">Makanan</option>
-                                    <option value="2">Barang</option>
-                                    <option value="3">Mandi</option> --}}
-                                   </select>
-                               </div>
-                               <div class=" mb-3">
-                                   <input type="number" class="form-control" name="harga_beli" placeholder="Harga Beli"
-                                       aria-label="Harga Beli" required>
-                               </div>
-                               <div class=" mb-3">
-                                   <input type="number" class="form-control" name="harga_jual" placeholder="Harga Jual"
-                                       aria-label="Harga Jual" required>
-                               </div>
-                               <div class=" mb-3">
-                                   <input type="number" class="form-control" name="stok" placeholder="Stok"
-                                       aria-label="Stok" required>
-                               </div>
-                               <div class="mb-3 row g-3 align-items-center">
-                                   <div class="col-auto">
-                                       <label for="barcode" class="col-form-label">Barcode</label>
+                               <div class="mb-3 row">
+                                   <label class="col-sm-3 col-form-label">Nama Produk</label>
+                                   <div class="col-sm-9">
+                                       <input type="text" class="form-control" name="nama_produk" placeholder="Nama"
+                                           aria-label="Nama Produk" required>
                                    </div>
-                                   <div class="col-auto">
-                                       <div class="input-group">
-                                           <input type="number" class="form-control" name="barcode" placeholder="Barcode"
-                                               aria-label="Barcode" required>
-                                           <button type="button" class="btn btn-warning" id="btn-scanner">
-                                               <svg class="nav-icon" height="22" width="32">
-                                                   <use
-                                                       xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-camera') }}">
-                                                   </use>
-                                               </svg>
-                                           </button>
+                               </div>
+                               <div class="mb-3 row">
+                                   <label class="col-sm-3 col-form-label">Kategori</label>
+                                   <div class="col-sm-9">
+                                       <select class="form-select" id="kategori" name="id_kategori" aria-label="Kategori"
+                                           required></select>
+                                   </div>
+                               </div>
+                               <div class="mb-3 row">
+                                   <label class="col-sm-3 col-form-label">Harga Beli</label>
+                                   <div class="col-sm-9">
+                                       <input type="number" class="form-control" name="harga_beli" placeholder="Harga Beli"
+                                           aria-label="Harga Beli" step="any" required>
+                                   </div>
+                               </div>
+                               <div class="mb-3 row">
+                                   <label class="col-sm-3 col-form-label">Harga Jual</label>
+                                   <div class="col-sm-9">
+                                       <input type="number" class="form-control" name="harga_jual" placeholder="Harga Jual"
+                                           aria-label="Harga Jual" step="any" required>
+                                   </div>
+                               </div>
+                               <div class="mb-3 row">
+                                   <label class="col-sm-3 col-form-label">Stok</label>
+                                   <div class="col-sm-9">
+                                       <input type="number" class="form-control" name="stok" placeholder="Stok"
+                                           aria-label="Stok" required>
+                                   </div>
+                               </div>
+                               <div class="mb-3 row">
+                                   <label class="col-sm-3 col-form-label">Barcode</label>
+                                   <div class="col-sm-9">
+                                       <div class="col-auto">
+                                           <div class="input-group">
+                                               <input type="number" class="form-control" name="barcode"
+                                                   placeholder="Barcode" aria-label="Barcode" required>
+                                               <button type="button" class="btn btn-warning" id="btn-scanner">
+                                                   <svg class="nav-icon" height="22" width="32">
+                                                       <use
+                                                           xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-camera') }}">
+                                                       </use>
+                                                   </svg>
+                                               </button>
+                                           </div>
                                        </div>
                                    </div>
                                </div>
-
                                <div style="width: 300px; margin: 0 auto;" id="reader"></div>
                            </form>
                        </div>
@@ -138,26 +147,46 @@
                });
 
                $(document).on('click', '.btnDelete', function() {
-                   if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
-                       var id = $(this).attr('id');
+                   Swal.fire({
+                       title: 'Konfirmasi',
+                       text: 'Apakah Anda yakin ingin menghapus data ini?',
+                       icon: 'warning',
+                       showCancelButton: true,
+                       confirmButtonText: 'Ya',
+                       cancelButtonText: 'Batal'
+                   }).then((result) => {
+                       if (result.isConfirmed) {
+                           var id = $(this).attr('id');
 
-                       $.ajax({
-                           url: "/produk/" + id,
-                           type: 'DELETE',
-                           dataType: 'json',
-                           data: {
-                               "_token": "{{ csrf_token() }}",
-                               "id": id
-                           },
-                           success: function(response) {
-                               alert(response.msg);
-                               getIndex();
-                           },
-                           error: function(xhr, status, error) {
-                               alert('Terjadi kesalahan diserver: ' + error);
-                           }
-                       });
-                   }
+                           $.ajax({
+                               url: "/produk/" + id,
+                               type: 'DELETE',
+                               dataType: 'json',
+                               data: {
+                                   "_token": "{{ csrf_token() }}",
+                                   "id": id
+                               },
+                               success: function(response) {
+                                   Swal.fire({
+                                       title: 'Berhasil!',
+                                       text: response.msg,
+                                       icon: 'success',
+                                       confirmButtonText: 'OK'
+                                   });
+                                   getIndex();
+                               },
+                               error: function(xhr, status, error) {
+                                   Swal.fire({
+                                       title: 'Error',
+                                       text: 'Terjadi kesalahan di server: ' +
+                                           error,
+                                       icon: 'error',
+                                       confirmButtonText: 'OK'
+                                   });
+                               }
+                           });
+                       }
+                   });
                });
 
                $(document).on('click', '.update', function() {
@@ -173,7 +202,6 @@
                        dataType: 'json',
                        success: function(response) {
                            // Isi formulir dengan data yang diterima
-                           console.log(response.data);
                            $('input[name=getId]').val(response.data.id_produk);
                            $('input[name=nama_produk]').val(response.data.nama_produk);
                            $('select[name=id_kategori]').val(response.data.id_kategori);
@@ -202,17 +230,22 @@
                        });
 
                    function onScanSuccess(decodedText, decodedResult) {
-                       // Handle on success condition with the decoded text or result.
-                       // alert(`Scan result: ${decodedText}`, decodedResult);
-                       $('input[name=barcode]').val(decodedText);
-
-                       // ...
-
-                       // Mengirim permintaan AJAX
+                       if (/^\d+$/.test(decodedText)) {
+                           // Jika decodedText berisi angka, set nilai input "barcode"
+                           $('input[name=barcode]').val(decodedText);
+                       } else {
+                           // Jika decodedText bukan angka, tampilkan SweetAlert
+                           Swal.fire({
+                               title: 'Peringatan!',
+                               text: 'Barcode harus berupa angka.',
+                               icon: 'warning',
+                               confirmButtonText: 'OK'
+                           });
+                       }
 
                        html5QrcodeScanner.clear();
-                       // ^ this will stop the scanner (video feed) and clear the scan area.
                    }
+
 
                    html5QrcodeScanner.render(onScanSuccess);
 
@@ -250,7 +283,12 @@
                            dataType: 'json',
                            success: function(response) {
                                // Memeriksa jika respons memiliki pesan sukses
-                               alert(response.msg);
+                               Swal.fire({
+                                   title: 'Berhasil!',
+                                   text: response.msg,
+                                   icon: 'success',
+                                   confirmButtonText: 'OK'
+                               });
 
                                getIndex();
                                $('#modalMaster').modal('hide');
@@ -258,11 +296,21 @@
                            },
                            error: function(xhr, status, error) {
                                var response = xhr.responseJSON;
-
-                               if (response && response.msg) {
-                                   alert(response.msg);
+                               if (response && response.errors) {
+                                   var errorMessage = '';
+                                   $.each(response.errors, function(key, value) {
+                                       errorMessage += value[0] +
+                                           '\n'; // Menambahkan pesan kesalahan ke variabel errorMessage
+                                   });
+                                   Swal.fire({
+                                       title: errorMessage,
+                                       icon: "warning"
+                                   });
                                } else {
-                                   alert('Terjadi kesalahan: ' + error);
+                                   Swal.fire({
+                                       title: 'Terjadi kesalahan: ' + error,
+                                       icon: "error"
+                                   });
                                }
                            }
                        });
@@ -273,12 +321,22 @@
                            data: formData,
                            dataType: 'json',
                            success: function(response) {
-                               alert(response.msg);
+                               Swal.fire({
+                                   title: 'Berhasil!',
+                                   text: response.msg,
+                                   icon: 'success',
+                                   confirmButtonText: 'OK'
+                               });
                                getIndex();
                                $('#modalMaster').modal('hide');
                            },
                            error: function(xhr, status, error) {
-                               alert('Terjadi kesalahan: ' + error);
+                               Swal.fire({
+                                   title: 'Error',
+                                   text: 'Terjadi kesalahan diserver: ' + error,
+                                   icon: 'success',
+                                   confirmButtonText: 'OK'
+                               });
                            }
                        });
 
@@ -300,11 +358,15 @@
                                $('#tbody-data').html(response.data);
                            });
                            // Inisialisasi DataTables setelah mengisi data
-                           $('#myTable').DataTable().destroy();
                            $('#myTable').DataTable();
                        },
                        error: function(xhr, status, error) {
-                           alert('Terjadi kesalahan: ' + error);
+                           Swal.fire({
+                               title: 'Error',
+                               text: 'Terjadi kesalahan diserver saat memunculkan data: ' + error,
+                               icon: 'error',
+                               confirmButtonText: 'OK'
+                           });
                        }
                    });
                }
@@ -318,18 +380,26 @@
                            if (response.length > 0) {
                                var opt = '<option selected disabled value="mstr">Pilih Kategori</option>';
                                for (i = 0; i < response.length; i++) {
-                                   console.log(response[i].id_kategori);
-
                                    opt += '<option value="' + response[i].id_kategori + '">' + response[i]
                                        .nama_kategori + '</option>';
                                }
                                $("#kategori").html(opt);
                            } else {
-                               alert("Tidak ada kategori barang");
+                               Swal.fire({
+                                   title: 'Peringatan',
+                                   text: 'Tidak ada kategori barang: ' + error,
+                                   icon: 'warning',
+                                   confirmButtonText: 'OK'
+                               });
                            }
                        },
                        error: function(xhr, status, error) {
-                           alert('Terjadi kesalahan: ' + error);
+                           Swal.fire({
+                               title: 'Error',
+                               text: 'Terjadi kesalahan saat mengambil data kategori: ' + error,
+                               icon: 'error',
+                               confirmButtonText: 'OK'
+                           });
                        }
                    })
                }

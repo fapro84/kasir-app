@@ -11,12 +11,12 @@
     @if (session('user.user_priv') === 'admin')
         {{-- admin===================== --}}
         <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-            <li class="nav-item"><a class="nav-link" id="sbdashboard" href="/dashboard">
+            <li class="nav-item"><a class="nav-link" id="sbdashboard" href="/dash">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
                     </svg>Dashboard</a>
             </li>
-            <li class="nav-item"><a class="nav-link" id="sbtrans" href="/register">
+            <li class="nav-item"><a class="nav-link" id="sbtrans" href="/user">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-people') }}"></use>
                     </svg>Registrasi Petugas</a>
@@ -31,6 +31,11 @@
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-list') }}"></use>
                     </svg>Kategori</a>
             </li>
+            <li class="nav-item"><a class="nav-link" id="sbpelanggan" href="/pelanggan">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-contact') }}"></use>
+                    </svg>Pelanggan</a>
+            </li>
             <li class="nav-item"><a class="nav-link" id="sblaporan" href="/laporan">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-chart-line') }}"></use>
@@ -40,7 +45,7 @@
     @elseif(session('user.user_priv') === 'petugas')
         {{-- petugas --}}
         <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-            <li class="nav-item"><a class="nav-link" id="sbdashboard" href="/dashboard">
+            <li class="nav-item"><a class="nav-link" id="sbdashboard" href="/dash">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
                     </svg>Dashboard</a>

@@ -7,13 +7,13 @@
         <div class="card mb-4 mt-2">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <div class="">
-                    <strong>Kategori</strong>
+                    <strong>Pelanggan</strong>
                 </div>
                 <div class="ms-auto">
 
 
                     <button type="button" class="btn btn-outline-primary" id="btnAdd" data-coreui-toggle="modal"
-                        data-coreui-target="#modalMaster">Tambah Kategori</button>
+                        data-coreui-target="#modalMaster">Tambah Pelanggan</button>
                 </div>
             </div>
 
@@ -25,8 +25,9 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
-                                        <th scope="col">Id Kategori</th>
-                                        <th scope="col">Nama Kategori</th>
+                                        <th scope="col">Nama</th>
+                                        <th scope="col">Alamat</th>
+                                        <th scope="col">Hp</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -44,7 +45,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalMasterLabel">Tambah Barang</h5>
+                        <h5 class="modal-title" id="modalMasterLabel">Tambah Pelanggan</h5>
                         <button type="button" class="btn-close" data-coreui-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -53,17 +54,24 @@
                             <input type="hidden" value="add" name="action">
                             <input type="hidden" value="" name="getId">
                             <div class="mb-3 row">
-                                <label for="hp" class="col-sm-3 col-form-label">Id Kategori</label>
+                                <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="id_kategori" aria-label="Id Kategori"
+                                    <input type="text" class="form-control" name="nama" aria-label="nama"
                                         required>
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="hp" class="col-sm-3 col-form-label">Nama Kategori</label>
+                                <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nama_kategori"
-                                        aria-label="Nama Kategori" required>
+                                    <input type="text" class="form-control" name="alamat"
+                                        aria-label="alamat" required>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="hp" class="col-sm-3 col-form-label">Hp</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" name="hp"
+                                        aria-label="hp" required>
                                 </div>
                             </div>
                         </form>
@@ -80,15 +88,16 @@
 
 @section('request')
     <script>
-        $("#sbkategori").addClass("active");
-        $("#breadcrumb").text("Kategori");
+        $("#sbpelanggan").addClass("active");
+        $("#breadcrumb").text("Pelanggan");
 
         $(function() {
 
             $(document).on('click', '#btnAdd', function() {
                 $('input[name=action]').val('add');
-                $('input[name=id_kategori]').val('');
-                $('input[name=nama_kategori]').val('');
+                $('input[name=nama]').val('');
+                $('input[name=alamat]').val('');
+                $('input[name=hp]').val('');
 
                 // Tampilkan modal dengan id "modalMaster"
                 $("#modalMaster").modal('show');
@@ -187,15 +196,16 @@
 
                 // Mendapatkan data dari formulir
                 var formData = {
-                    id: $('input[name=id_kategori]').val(),
-                    nama: $('input[name=nama_kategori]').val(),
+                    nama: $('input[name=nama]').val(),
+                    alamat: $('input[name=alamat]').val(),
+                    hp: $('input[name=hp]').val(),
                     _token: '{{ csrf_token() }}' // Menambahkan token CSRF
                 };
 
                 // Permintaan AJAX untuk menyimpan data
                 if (action === 'add') {
                     $.ajax({
-                        url: '/kategori',
+                        url: '/pelanggan',
                         type: 'POST',
                         data: formData,
                         dataType: 'json',
@@ -254,7 +264,7 @@
             function getIndex() {
                 // Mengisi tabel menggunakan data dari Ajax
                 $.ajax({
-                    url: "/kategori/getAll",
+                    url: "/pelanggan/getAll",
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {

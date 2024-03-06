@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreKategoriRequest;
 use App\Http\Requests\UpdateKategoriRequest;
 use App\Models\Kategori;
+use App\Models\Produk;
 
 class KategoriController extends Controller
 {
@@ -161,22 +162,31 @@ class KategoriController extends Controller
     public function destroy(Kategori $id)
     {
         $kategori = Kategori::find($id->id_kategori);
-
+    
         if ($kategori) {
-            $kategori->delete();
-            $result = [
-                "data"  => "",
-                "msg"   => "Data Berhasil dihapus",
-            ];
-            return $result;
+            $produkConnect = Produk::where('id_kategori', $kategori->id_kategori)->exists();
+    
+            if ($produkConnect) {
+                $result = [
+                    "status" => false, 
+                    "msg"   => "Kategori produk saat ini sedang digunakan. Tidak dapat dihapus.",
+                ];
+            } else {
+                $kategori->delete();
+                $result = [
+                    "status" => true,
+                    "msg"   => "Data Berhasil dihapus",
+                ];
+            }
         } else {
             $result = [
-                "data"  => "",
                 "msg"   => "Data tidak ditemukan",
             ];
-            return $result;
         }
+    
+        return response()->json($result);
     }
+    
 
     public function listKategori()
     {
