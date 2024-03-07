@@ -2,7 +2,9 @@
 
 // use App\Http\Controllers\Auth\loginController;
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenjualanController;
@@ -56,12 +58,19 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/kategori/{id}', [KategoriController::class, 'update']);
         Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);
         Route::get('/kategori/list', [KategoriController::class, 'listKategori']);
+
+        // generate laporan
+        Route::get('/laporan', [LaporanController::class, 'index']);
+        Route::get('/laporan/getAll', [LaporanController::class, 'getAll']);
+        Route::get('/laporan/{id}', [LaporanController::class, 'show']);
+        Route::post('/laporan/getByRange', [LaporanController::class, 'getByRange']);
     });
 
     //dashboard
     Route::get('/dash', function () {
         return view('dashboard.index');
     });
+    Route::post('/dash/getByRange', [DashboardController::class, 'getByRange']);
 
 
     //pelanggan

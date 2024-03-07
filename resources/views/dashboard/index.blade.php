@@ -1,127 +1,167 @@
 @extends('layouts.master')
 
+
 @section('content')
     <div class="container">
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <div class="mb-3 row">
+                    <label class="col-sm-1 col-form-label" for="reportrange">Periode:</label>
+                    <div class="col-sm-9">
+                        <div class="col-auto">
+                            <div class="input-group">
+                                <input type="text" id="reportrange" class="ml-2">
+                                <span class="input-group-text" id="basic-addon2">
+                                    <svg id="basic" class="nav-icon" height="22" width="32">
+                                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-calendar') }}">
+                                        </use>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <div class="card-header">Produk Terjual</div>
+                    <div class="card-header">Penjualan</div>
                     <div class="card-body">
-                        {{-- <h3>Total Penjualan: $500</h3> --}}
-                        <!-- Informasi penjualan lainnya -->
+                        <h3 id="penjualan"></h3>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">Pemasukan</div>
+                    <div class="card-body">
+                        <h3 id="pemasukan"></h3>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <div class="card-header">Total Terjual</div>
+                    <div class="card-header">Laba</div>
                     <div class="card-body">
-                        {{-- <h3>Total terjual</h3> --}}
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">Keuntungan</div>
-                    <div class="card-body">
-                        {{-- <h3>Keuntungan Kotor: $200</h3> --}}
+                        <h3 id="laba"></h3>
                     </div>
                 </div>
             </div>
         </div>
 
 
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">Produk Terjual</div>
-                    <div class="card-body">
-                        {{-- <h3>Total Penjualan: $500</h3> --}}
-                        <!-- Informasi penjualan lainnya -->
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">Total Terjual</div>
-                    <div class="card-body">
-                        {{-- <h3>Total terjual</h3> --}}
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-header">Keuntungan</div>
-                    <div class="card-body">
-                        {{-- <h3>Keuntungan Kotor: $200</h3> --}}
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h4 class="card-title mb-0">Traffic</h4>
-                    <div class="small text-medium-emphasis">January - July 2022</div>
-                </div>
-                <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
-                    <div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
-                        <input class="btn-check" id="option1" type="radio" name="options" autocomplete="off">
-                        <label class="btn btn-outline-secondary"> Day</label>
-                        <input class="btn-check" id="option2" type="radio" name="options" autocomplete="off"
-                            checked="">
-                        <label class="btn btn-outline-secondary active"> Month</label>
-                        <input class="btn-check" id="option3" type="radio" name="options" autocomplete="off">
-                        <label class="btn btn-outline-secondary"> Year</label>
-                    </div>
-                    <button class="btn btn-primary" type="button">
-                        <svg class="icon">
-                            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-cloud-download"></use>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
-                <canvas class="chart" id="main-chart" height="300"
-                    style="display: block; box-sizing: border-box; height: 300px; width: 1020px;" width="1020"></canvas>
-                <div class="chartjs-tooltip" style="opacity: 0; left: 51px; top: 351.46px;">
-                    <table style="margin: 0px;">
-                        <thead class="chartjs-tooltip-header">
-                            <tr style="border-width: 0px;" class="chartjs-tooltip-header-item">
-                                <th style="border-width: 0px;">January</th>
-                            </tr>
-                        </thead>
-                        <tbody class="chartjs-tooltip-body">
-                            <tr class="chartjs-tooltip-body-item">
-                                <td style="border-width: 0px;"><span
-                                        style="background: rgba(3, 9, 15, 0.1); border-color: rgb(51, 153, 255); border-width: 2px; margin-right: 10px; height: 10px; width: 10px; display: inline-block;"></span>My
-                                    First dataset: 170</td>
-                            </tr>
-                            <tr class="chartjs-tooltip-body-item">
-                                <td style="border-width: 0px;"><span
-                                        style="background: rgba(0, 0, 0, 0.1); border-color: rgb(46, 184, 92); border-width: 2px; margin-right: 10px; height: 10px; width: 10px; display: inline-block;"></span>My
-                                    Second dataset: 162</td>
-                            </tr>
-                            <tr class="chartjs-tooltip-body-item">
-                                <td style="border-width: 0px;"><span
-                                        style="background: rgba(0, 0, 0, 0.1); border-color: rgb(229, 83, 83); border-width: 2px; margin-right: 10px; height: 10px; width: 10px; display: inline-block;"></span>My
-                                    Third dataset: 65</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 
 @section('request')
     <script>
         $('#sbdashboard').addClass("active");
+
+        $(document).ready(function() {
+            getRangeToday();
+
+            // Mendapatkan tanggal hari ini
+            var today = moment();
+
+            // Callback untuk menampilkan tanggal yang dipilih
+            function cb(start, end) {
+                var label = '';
+
+                // Jika rentang tanggal sama dengan hari ini
+                if (start.isSame(today) && end.isSame(today)) {
+                    label = 'Hari Ini';
+                } else {
+                    label = start.format('YYYY MMMM DD') + ' ~ ' + end.format('YYYY MMMM DD');
+                }
+
+                // Tampilkan label di dalam input
+                // $('#reportrange span').html(label);
+
+                // Setel nilai input sesuai dengan rentang tanggal yang dipilih
+                $('#reportrange').val(label);
+
+                var startDate = $('#reportrange').data('daterangepicker').startDate.format('YYYY-MM-DD');
+                var endDate = $('#reportrange').data('daterangepicker').endDate.format('YYYY-MM-DD');
+
+                $.ajax({
+                    url: '/dash/getByRange',
+                    type: 'post',
+                    data: {
+                        startDate: startDate,
+                        endDate: endDate,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        $('#penjualan').text(response.count);
+                        $('#pemasukan').text(response.jual);
+                        $('#laba').text(response.laba);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            }
+
+            // Membuat date range picker dengan rentang tanggal hari ini
+            $('#reportrange').daterangepicker({
+                startDate: today,
+                endDate: today,
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    separator: '    ~    ',
+                    applyLabel: 'Terapkan',
+                    cancelLabel: 'Batal',
+                    fromLabel: 'Dari',
+                    toLabel: 'Hingga',
+                    customRangeLabel: 'Rentang Kustom',
+                    daysOfWeek: ['Mg', 'Sn', 'Sl', 'Rb', 'Km', 'Jm', 'Sb'],
+                    monthNames: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus',
+                        'September', 'Oktober', 'November', 'Desember'
+                    ],
+                    firstDay: 1
+                },
+                ranges: {
+                    'Hari Ini': [today, today],
+                    '7 Hari Terakhir': [moment().subtract(6, 'days'), today],
+                    '15 Hari Terakhir': [moment().subtract(14, 'days'), today],
+                    '1 Bulan Terakhir': [moment().subtract(1, 'month'), today]
+                }
+            }, cb);
+
+            // Menjalankan callback untuk menampilkan tanggal yang dipilih
+            cb(today, today);
+
+            function getRangeToday() {
+                var today = moment().format('YYYY-MM-DD');
+
+                // Membuat permintaan AJAX untuk data penjualan hari ini
+                $.ajax({
+                    url: '/dash/getByRange',
+                    type: 'post',
+                    data: {
+                        startDate: today,
+                        endDate: today,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        $('#penjualan').text(response.count);
+                        $('#pemasukan').text(response.jual);
+                        $('#laba').text(response.laba);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+
+            }
+        });
     </script>
 @endsection
