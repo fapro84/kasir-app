@@ -50,10 +50,15 @@
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
                     </svg>Dashboard</a>
             </li>
-            <li class="nav-item"><a class="nav-link" id="sbtrans" href="/transaksi">
+            <li class="nav-item"><a class="nav-link" id="sbtrans" href="/penjualan">
                     <svg class="nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-money') }}"></use>
                     </svg>Transaksi</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" id="sbpelanggan" href="/pelanggan">
+                    <svg class="nav-icon">
+                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-contact') }}"></use>
+                    </svg>Pelanggan</a>
             </li>
         </ul>
     @endif

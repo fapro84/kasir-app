@@ -86,7 +86,7 @@ class UserController extends Controller
             'password'    => 'required|string|min:8',
             'role'    => 'required|string|in:petugas,admin|min:5',
             'alamat'    => 'required|string',
-            'hp'          => 'required|numeric|digits:12',
+            'hp'          => 'required|numeric|digits_between:12,15',
         ], [
             'nama_user.required' => 'Nama user harus diisi.',
             'nama_user.max' => 'Nama user tidak boleh melebihi 40 karakter.',
@@ -98,7 +98,7 @@ class UserController extends Controller
             'alamat.required' => 'Alamat harus diisi.',
             'hp.required' => 'Nomor HP harus diisi.',
             'hp.numeric' => 'Nomor HP harus berupa angka.',
-            'hp.digits' => 'Nomor HP minimal 12 digit.',
+            'hp.digits_between' => 'Nomor HP minimal 12 digit.',
         ]);
 
         $hashedPassword = Hash::make($validatedData['password']);

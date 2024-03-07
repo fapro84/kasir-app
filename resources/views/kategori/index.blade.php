@@ -88,6 +88,7 @@
             $(document).on('click', '#btnAdd', function() {
                 $('input[name=action]').val('add');
                 $('input[name=id_kategori]').val('');
+                $('input[name=id_kategori]').prop('disabled', false);
                 $('input[name=nama_kategori]').val('');
 
                 // Tampilkan modal dengan id "modalMaster"
@@ -152,6 +153,7 @@
                 var id = $(this).attr('id');
                 $('#modalMaster').modal('show');
                 $('input[name=action]').val('update');
+                $('input[name=id_kategori]').prop('disabled', true);
 
                 // Fungsi untuk mendapatkan data yang akan diedit
                 // function getDataToEdit(id) {

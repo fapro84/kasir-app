@@ -190,7 +190,7 @@ class ProdukController extends Controller
                 "data"  => '',
                 "msg"   => "Produk gagal diubah"
             ];
-            return response()->json($result);
+            return response()->json($result, 500);
         }
     }
 

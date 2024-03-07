@@ -5,6 +5,7 @@
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SidebarController;
 use App\Http\Controllers\UserController;
@@ -55,11 +56,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/kategori/{id}', [KategoriController::class, 'update']);
         Route::delete('/kategori/{id}', [KategoriController::class, 'destroy']);
         Route::get('/kategori/list', [KategoriController::class, 'listKategori']);
-
-        //pelanggan
-        Route::get('/pelanggan', [PelangganController::class, 'index']);
-        Route::get('/pelanggan/getAll', [PelangganController::class, 'getAll']);
-        Route::post('/pelanggan', [PelangganController::class, 'store']);
     });
 
     //dashboard
@@ -68,10 +64,24 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
+    //pelanggan
+    Route::get('/pelanggan', [PelangganController::class, 'index']);
+    Route::get('/pelanggan/getAll', [PelangganController::class, 'getAll']);
+    Route::post('/pelanggan', [PelangganController::class, 'store']);
+    Route::delete('/pelanggan/{id}', [PelangganController::class, 'destroy']);
+    Route::put('/pelanggan/{id}', [PelangganController::class, 'update']);
+    Route::get('/pelanggan/getById/{id}', [PelangganController::class, 'show']);
+
     // transaksi
-    Route::get('/transaksi', function () {
-        return view('transaksi.index');
+
+
+    //Penjualan
+    Route::get('/penjualan', function () {
+        return view('penjualan.index');
     });
+    Route::get('/penjualan/invoice/{id}', [PenjualanController::class, 'invoice'])->name('penjualan.invoice');
+    Route::get('/penjualan/{id}', [PenjualanController::class, 'getProdukByBarcode']);
+    Route::post('/listBarang', [PenjualanController::class, 'store']);
 
 
     Route::get('/logout', [LoginController::class, 'logout']);

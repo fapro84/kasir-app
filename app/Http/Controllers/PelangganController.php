@@ -24,11 +24,11 @@ class PelangganController extends Controller
         $no = 1;
 
         foreach ($pelanggans as $pelanggan) {
-            $id         = $pelanggan->id_user;
+            $id         = $pelanggan->id_pelanggan;
             $nama       = $pelanggan->nama;
             $alamat   = $pelanggan->alamat;
             $hp    = $pelanggan->hp;
-            
+
 
             $array = '<tr><td scope="row">' . $no . '</td>';
             $array .= '<td scope="row">' . $nama . '</td>';
@@ -67,11 +67,12 @@ class PelangganController extends Controller
         $validateData = $request->validate([
             'nama'  => 'required',
             'alamat'    => 'required',
-            'hp'    => 'required|numeric|',
-        ],[
+            'hp'    => 'required|numeric|digits_between:12,15',
+        ], [
             'nama.required' => 'Nama tidak boleh kosong',
             'alamat.required' => 'Alamat tidak boleh kosong',
             'hp.required' => 'Hp tidak boleh kosong',
+            'hp.digits_between' => 'Nomor HP minimal 12 digit.',
         ]);
 
         $pelanggan = Pelanggan::create([
@@ -100,9 +101,24 @@ class PelangganController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pelanggan $pelanggan)
+    public function show(Pelanggan $id)
     {
-        //
+        $data = Pelanggan::where('id_pelanggan', $id->id_pelanggan)->first();
+        if ($data) {
+            $result = [
+                'data'  => $data,
+                'msg'   => ''
+            ];
+
+            return response()->json($result);
+        } else {
+            $result = [
+                'data'  => '',
+                'msg'   => 'Data tidak ditemukan'
+            ];
+
+            return response()->json($result);
+        }
     }
 
     /**
@@ -116,16 +132,60 @@ class PelangganController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePelangganRequest $request, Pelanggan $pelanggan)
+    public function update(UpdatePelangganRequest $request, Pelanggan $id)
     {
-        //
+        $validateData = $request->validate([
+            'nama'  => 'required',
+            'alamat'    => 'required',
+            'hp'    => 'required|numeric|digits_between:12,15',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong',
+            'alamat.required' => 'Alamat tidak boleh kosong',
+            'hp.required' => 'Hp tidak boleh kosong',
+            'hp.digits_between' => 'Nomor HP minimal 12 digit.',
+        ]);
+
+        $data = Pelanggan::where('id_pelanggan', $id->id_pelanggan)
+            ->update([
+                'nama' => $validateData['nama'],
+                'alamat' => $validateData['alamat'],
+                'hp' => $validateData['hp'],
+            ]);
+
+        if ($data) {
+            $result = [
+                "msg"       => "Pelanggan berhasil diubah",
+                "status"    => true
+            ];
+            return response()->json($result);
+        } else {
+            $result = [
+                "msg"   => "Anda belum mengubah data",
+                "status"    => false
+            ];
+            return response()->json($result);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pelanggan $pelanggan)
+    public function destroy(Pelanggan $id)
     {
-        //
+        $pelanggan = Pelanggan::find($id->id_pelanggan);
+
+        if ($pelanggan) {
+            $pelanggan->delete();
+            $result = [
+                "status" => true,
+                "msg"   => "Data Berhasil dihapus",
+            ];
+        } else {
+            $result = [
+                "msg"   => "Data tidak ditemukan",
+            ];
+        }
+
+        return response()->json($result);
     }
 }

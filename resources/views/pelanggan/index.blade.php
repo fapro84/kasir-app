@@ -56,22 +56,19 @@
                             <div class="mb-3 row">
                                 <label for="nama" class="col-sm-3 col-form-label">Nama</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nama" aria-label="nama"
-                                        required>
+                                    <input type="text" class="form-control" name="nama" aria-label="nama" required>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="alamat"
-                                        aria-label="alamat" required>
+                                    <input type="text" class="form-control" name="alamat" aria-label="alamat" required>
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="hp" class="col-sm-3 col-form-label">Hp</label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="hp"
-                                        aria-label="hp" required>
+                                    <input type="number" class="form-control" name="hp" aria-label="hp" required>
                                 </div>
                             </div>
                         </form>
@@ -116,7 +113,7 @@
                         var id = $(this).attr('id');
 
                         $.ajax({
-                            url: "/kategori/" + id,
+                            url: "/pelanggan/" + id,
                             type: 'DELETE',
                             dataType: 'json',
                             data: {
@@ -124,24 +121,14 @@
                                 "id": id
                             },
                             success: function(response) {
-                                if (response.status) {
-                                    Swal.fire({
-                                        title: 'Berhasil!',
-                                        text: response.msg,
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    });
-                                    getIndex();
-                                } else {
-                                    Swal.fire({
-                                        title: 'Peringatan',
-                                        text: response.msg,
-                                        icon: 'warning',
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: response.msg,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                });
 
-
+                                getIndex();
                             },
                             error: function(xhr, status, error) {
                                 Swal.fire({
@@ -165,14 +152,15 @@
                 // Fungsi untuk mendapatkan data yang akan diedit
                 // function getDataToEdit(id) {
                 $.ajax({
-                    url: '/kategori/getById/' + id,
+                    url: '/pelanggan/getById/' + id,
                     type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         // Isi formulir dengan data yang diterima
-                        $('input[name=getId]').val(response.data.id_kategori);
-                        $('input[name=id_kategori]').val(response.data.id_kategori);
-                        $('input[name=nama_kategori]').val(response.data.nama_kategori);
+                        $('input[name=getId]').val(response.data.id_pelanggan);
+                        $('input[name=nama]').val(response.data.nama);
+                        $('input[name=alamat]').val(response.data.alamat);
+                        $('input[name=hp]').val(response.data.hp);
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
@@ -221,37 +209,75 @@
                             $('#modalMaster').modal('hide');
                         },
                         error: function(xhr, status, error) {
-                            Swal.fire({
-                                title: 'Terjadi Kesalahan',
-                                text: 'Terjadi kesalahan: ' + error,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
+                            var response = xhr.responseJSON;
+                            if (response && response.errors) {
+                                var errorMessage = '';
+                                $.each(response.errors, function(key, value) {
+                                    errorMessage += value[0] +
+                                        '\n'; // Menambahkan pesan kesalahan ke variabel errorMessage
+                                });
+                                Swal.fire({
+                                    title: "Peringatan",
+                                    text: errorMessage,
+                                    icon: "warning"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Terjadi kesalahan: " + error,
+                                    icon: "error",
+                                });
+                            }
                         }
                     });
                 } else if (action === 'update') {
                     $.ajax({
-                        url: '/kategori/' + id,
+                        url: '/pelanggan/' + id,
                         type: 'PUT',
                         data: formData,
                         dataType: 'json',
                         success: function(response) {
-                            Swal.fire({
-                                title: 'Berhasil!',
-                                text: response.msg,
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            });
-                            getIndex();
-                            $('#modalMaster').modal('hide');
+                            if (response.status) {
+                                Swal.fire({
+                                    title: 'Berhasil!',
+                                    text: response.msg,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                });
+                                getIndex();
+                                $('#modalMaster').modal('hide');
+                            } else {
+                                Swal.fire({
+                                    title: 'Peringatan',
+                                    text: response.msg,
+                                    icon: 'warning',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+
+
+
                         },
                         error: function(xhr, status, error) {
-                            Swal.fire({
-                                title: 'Terjadi Kesalahan',
-                                text: 'Terjadi kesalahan: ' + error,
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            });
+                            var response = xhr.responseJSON;
+                            if (response && response.errors) {
+                                var errorMessage = '';
+                                $.each(response.errors, function(key, value) {
+                                    errorMessage += value[0] +
+                                        '\n'; // Menambahkan pesan kesalahan ke variabel errorMessage
+                                });
+                                Swal.fire({
+                                    title: "Peringatan",
+                                    text: errorMessage,
+                                    icon: "warning"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Terjadi kesalahan: " + error,
+                                    icon: "error",
+                                });
+                            }
                         }
                     });
 

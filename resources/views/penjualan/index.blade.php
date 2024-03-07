@@ -5,19 +5,19 @@
         <div class="row">
             <div class="col-xl-4">
                 <div class="card mb-3">
-                    <div class="card-header text-light bg-info">Cari Barang</div>
+                    <div class="card-header">Cari Barang</div>
                     <div class="card-body">
                         <form id="searchbrg">
-                            <div id="reader" width="600px"></div>
-                            <input type="text" class="form-control mt-3" name="search"
-                                placeholder="Masukkan kode barang / nama barang >> enter" aria-label="Harga" required>
+                            <div id="reader" width="300px"></div>
+                            <input type="number" class="form-control mt-3" name="search" placeholder="Masukkan kode barang"
+                                aria-label="Harga" required>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="col-xl-8">
                 <div class="card mb-3">
-                    <div class="card-header text-light bg-info">Hasil Pencarian</div>
+                    <div class="card-header">Hasil Pencarian</div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -38,67 +38,66 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-12">
-            <div class="card mb-3">
-                <div class="card-header text-light bg-info">Kasir</div>
-                <div class="card-body">
-                    <p>Tanggal: <span id="current-datetime"></span></p>
+        <div class="row">
+            <div class="col-xl-8">
+                <div class="card mb-3">
+                    <div class="card-header">Detail Transaksi</div>
+                    <div class="card-body">
+                        <p>Tanggal: <span id="current-datetime"></span></p>
 
-                    <div class="table-responsive">
-                        <table id="myTable" class="table table-striped mb-4">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Harga</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listData"></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table id="myTable" class="table table-striped mb-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nama</th>
+                                        <th scope="col">Harga</th>
+                                        <th scope="col">Qty</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listData"></tbody>
+                            </table>
+                        </div>
+
                     </div>
-                    <form>
-                        <div class="row">
-                            <div class="row mb-3 col-xl-5">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Total</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="total">
-                                </div>
-                            </div>
-                            <div class="row mb-3 col-xl-5">
-                                <label for="inputPassword3" class="col-sm-2 col-form-label">Bayar</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="bayar">
-                                </div>
-                            </div>
-                            <div class="row mb-3 col-xl-2">
-                                <div>
-                                    <button type="button" class="btn btn-primary bayar">Bayar</button>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- ====== --}}
-                        <div class="row">
-                            <div class="row mb-3 col-xl-5">
-                                <label class="col-sm-2 col-form-label">Kembalian</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="kembalian">
-                                </div>
-                            </div>
-                            <div class="row mb-3 col-xl-4">
-                                {{-- <div>
-                                    <button type="button" class="btn btn-secondary bayar">Print</button>
-                                </div> --}}
-                            </div>
-                            <div class="row mb-3 col-xl-3">
-                                <div>
-                                    <button type="button" class="btn btn-secondary bayar">Print</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
+            <div class="col-xl-4">
+                <div class="card mb-3">
+                    <div class="card-header">Pembayaran</div>
+                    <div class="card-body">
+                        <div>
+                            <h2>Total</h2>
+                            <h2 id="total"></h2>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bayar" class="col-sm-5 col-form-label">Bayar</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="bayar">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pelanggan" class="col-sm-5 col-form-label">Pelanggan</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="pelanggan">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="kembalian" class="col-sm-5 col-form-label">Kembalian</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="kembalian">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div>
+                                <button type="button" class="btn btn-primary bayar">Bayar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <script>
@@ -132,25 +131,24 @@
 
 @section('request')
     <script src="https://unpkg.com/html5-qrcode"></script>
-<style>
-    #cameraSelection {
-    display: none;
-}
-
-</style>
+    <style>
+        #cameraSelection {
+            display: none;
+        }
+    </style>
     <script>
         $("#sbtrafns").addClass("active");
+        $("#breadcrumb").text("Penjualan");
         $('input[name=total]').val('');
         $('input[name=kembalian]').val('');
+        $('input[name=search]').val('');
+        $('input[name=pelanggan]').val('');
         $('input[name=total]').prop('disabled', 'true');
         $('input[name=kembalian]').prop('disabled', 'true');
 
-
-        // $('#myTable').DataTable();
-
-
         $(document).ready(function() {
-
+            var bayar = $('input[name=bayar]').val('');
+            var total = $('#total').text('');
             scanBarcode();
             $('#searchbrg input[name=search]').keypress(function(e) {
                 if (e.which == 13) {
@@ -159,7 +157,7 @@
 
                     // Mengirim permintaan AJAX
                     $.ajax({
-                        url: '/transaksi/' + barcode, // Ganti URL dengan endpoint yang sesuai
+                        url: '/penjualan/' + barcode, // Ganti URL dengan endpoint yang sesuai
                         type: 'GET',
                         dataType: 'json',
                         success: function(response) {
@@ -175,7 +173,11 @@
                             } else {
                                 $('#tbody-data').html('');
                                 $('input[name=search]').val('');
-                                alert('barang tidak ada');
+                                Swal.fire({
+                                    title: 'Peringatan',
+                                    text: 'Barang tidak ada',
+                                    icon: 'warning'
+                                });
                             }
                         },
                         error: function(xhr, status, error) {
@@ -185,7 +187,6 @@
                 }
             });
 
-
             $(document).on('click', '.add', function() {
                 // var id = $(this).attr('id');
                 var id = dataProduk.id_produk;
@@ -193,7 +194,7 @@
                 var harga = dataProduk.harga_jual;
                 var qty = $('input[name=qty]').val();
                 var sub_total = harga * qty;
-                var inp_total = $('input[name=total]').val();
+                var inp_total = $('#total').text();
 
                 var dt = `<tr>
                             <td class="d-none">${id}</td>
@@ -205,18 +206,33 @@
 
                 if (qty) {
                     $('#listData').append(dt);
-                    var total = +sub_total + +inp_total;
-                    $('input[name=total]').val(total);
+                    var total = +inp_total + +sub_total;
+                    $('#total').text(total);
                     $('#search_data').html('');
                     console.log(total);
                     scanBarcode();
-                }
+                } else {
+                    Swal.fire({
+                        title: 'Peringatan',
+                        text: 'Jangan lupa isi Qty barang',
+                        icon: 'warning'
+                    });
 
+                }
             });
+
+            $(document).on('keyup', 'input[name=bayar]', function() {
+                var bayar = $(this).val();
+                var total = $('#total').text();
+                var kembalian = bayar - total;
+                format = formatRupiah(kembalian);
+                $('input[name=kembalian]').val(kembalian);
+            });
+
 
             $(document).on('click', '.bayar', function() {
                 // Array untuk menyimpan data barang dari tabel
-                var listBarang = [];
+                var listProduk = [];
 
                 // Mendapatkan setiap baris dalam tabel
                 $('#listData tr').each(function(index, row) {
@@ -232,7 +248,7 @@
                         .text(); // Mengambil nilai dari kolom keempat (indeks 3)
 
                     // Menambahkan data barang ke dalam array listBarang
-                    listBarang.push({
+                    listProduk.push({
                         id: id,
                         nama: nama,
                         harga: harga,
@@ -240,34 +256,59 @@
                         total: total,
                     });
 
-                    console.log(listBarang);
+                    console.log(listProduk);
                 });
 
                 var bayar = $('input[name=bayar]').val();
+                var pelanggan = $('input[name=pelanggan]').val();
+                var total = $('#total').text();
 
+                if (bayar) {
+                    if (bayar >= total) {
+                        $.ajax({
+                            url: '/listBarang',
+                            type: 'POST',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            data: JSON.stringify({
+                                pelanggan: pelanggan,
+                                listProduk: listProduk,
+                                bayar: bayar,
+                                "_token": "{{ csrf_token() }}"
+                            }),
 
-                // Mengirimkan data barang ke rute /listBarang dengan metode POST
-                $.ajax({
-                    url: '/listBarang',
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        listBarang: listBarang,
-                        bayar: bayar,
-                        "_token": "{{ csrf_token() }}"
-                    }),
-
-                    success: function(response) {
-                        // Proses berhasil
-                        console.log(response);
-                        
-                    },
-                    error: function(xhr, status, error) {
-                        // Terjadi kesalahan
-                        console.error(xhr.responseText);
+                            success: function(response) {
+                                // Proses berhasil
+                                if (response.redirect) {
+                                    // Redirect pengguna ke URL yang ditentukan
+                                    window.location.href = response.redirect;
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                // Terjadi kesalahan
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Peringatan',
+                            text: 'Bayar kurang',
+                            confirmButtonText: 'OK'
+                        });
                     }
-                });
+
+
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Peringatan',
+                        text: 'Bayar harus di isi',
+                        confirmButtonText: 'OK'
+                    });
+                }
+
+
             });
 
             function scanBarcode() {
@@ -284,7 +325,7 @@
 
                     // Mengirim permintaan AJAX
                     $.ajax({
-                        url: '/transaksi/' + decodedText, // Ganti URL dengan endpoint yang sesuai
+                        url: '/penjualan/' + decodedText, // Ganti URL dengan endpoint yang sesuai
                         type: 'GET',
                         dataType: 'json',
                         success: function(response) {
@@ -299,8 +340,11 @@
                                 $('input[name=search]').val('');
                             } else {
                                 $('#tbody-data').html('');
-                                $('input[name=search]').val('');
-                                alert('barang tidak ada');
+                                Swal.fire({
+                                    title: 'Peringatan',
+                                    text: 'Barang tidak ada',
+                                    icon: 'warning'
+                                });
                                 scanBarcode();
                             }
                         },
@@ -313,6 +357,13 @@
                 }
 
                 html5QrcodeScanner.render(onScanSuccess);
+            }
+
+            function formatRupiah(angka) {
+                var reverse = angka.toString().split('').reverse().join('');
+                var ribuan = reverse.match(/\d{1,3}/g);
+                var formatted = ribuan.join('.').split('').reverse().join('');
+                return formatted;
             }
 
         });
