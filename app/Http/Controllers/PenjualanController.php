@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePenjualanRequest;
 use App\Http\Requests\UpdatePenjualanRequest;
 use App\Models\DetailPenjualan;
+use App\Models\Pelanggan;
 use App\Models\Penjualan;
 use App\Models\Produk;
 
@@ -31,17 +32,39 @@ class PenjualanController extends Controller
      */
     public function store(StorePenjualanRequest $request)
     {
+        if ($request->pelanggan) {
+            $pelanggan = Pelanggan::find($request->pelanggan);
+            if ($pelanggan) {
+                $penjualan = Penjualan::create([
+                    'id_user' => session('user.id_user'),
+                    'id_pelanggan' => $request->pelanggan,
+                    'diskon' => 0,
+                    'total_harga' => 0,
+                    'bayar' => 0,
+                    'kembalian' => 0,
+                    'tanggal_penjualan' => now(),
+                ]);
+            } else {
+                $result = [
+                    "data"      => ['id' => $request->pelanggan],
+                    "status"    => false,
+                    "msg"       => "Tidak ada pelanggan dengan id " . $request->pelanggan,
+                ];
+                return response()->json($result, 500);
+            }
+        }
+
         $penjualan = Penjualan::create([
             'id_user' => session('user.id_user'),
-            'id_pelanggan' => $request->pelanggan,
+            'id_pelanggan' => null,
             'diskon' => 0,
             'total_harga' => 0,
             'bayar' => 0,
             'kembalian' => 0,
             'tanggal_penjualan' => now(),
         ]);
-        
-            
+
+
         if (!$penjualan) {
             $result = [
                 "data"  => '',
@@ -58,8 +81,9 @@ class PenjualanController extends Controller
                 // Jika stok tidak mencukupi, batalkan penjualan
                 $penjualan->delete();
                 $result = [
-                    "data"  => '',
-                    "msg"   => "Stok " .$produkFind->nama_produk ." tidak mencukupi"
+                    "data"      => '',
+                    "status"    => 'emptyProduk',
+                    "msg"       => "Stok " . $produkFind->nama_produk . " tidak mencukupi"
                 ];
                 return response()->json($result, 500);
             }
@@ -86,6 +110,16 @@ class PenjualanController extends Controller
         $bayar = $request->bayar;
 
         $totalHarga = DetailPenjualan::where('id_penjualan', $penjualan->id_penjualan)->sum('sub_total');
+        // if ($request->pelanggan) {
+        //     $diskon = $totalHarga * 0.02;
+        //     $totalHarga = $totalHarga - $diskon;
+        //     $penjualan->total_harga = $totalHarga;
+        //     $penjualan->bayar = $bayar;
+        //     $penjualan->kembalian = $bayar - $totalHarga;
+        //     $penjualan->diskon = $diskon;
+        //     $penjualan->save();
+        // }
+
         $penjualan->total_harga = $totalHarga;
         $penjualan->bayar = $bayar;
         $penjualan->kembalian = $bayar - $totalHarga;
@@ -162,6 +196,7 @@ class PenjualanController extends Controller
     public function invoice($id_penjualan)
     {
         $dataPenjualan = Penjualan::where('id_penjualan', $id_penjualan)->first();
+        // dd($dataPenjualan);
         $detail = DetailPenjualan::where('id_penjualan', $id_penjualan)
             ->join('produk', 'detail_penjualan.id_produk', '=', 'produk.id_produk')
             ->select('produk.nama_produk', 'detail_penjualan.harga_jual', 'detail_penjualan.qty', 'detail_penjualan.sub_total')

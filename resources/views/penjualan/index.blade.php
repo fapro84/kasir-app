@@ -58,7 +58,7 @@
                                 <tbody id="listData"></tbody>
                             </table>
                         </div>
-
+                        <button id="reset" class="btn btn-primary">Reset</button>
                     </div>
                 </div>
             </div>
@@ -139,11 +139,13 @@
     <script>
         $("#sbtrafns").addClass("active");
         $("#breadcrumb").text("Penjualan");
-        $('input[name=total]').val('');
+        // $('input[name=total]').val('');
         $('input[name=kembalian]').val('');
         $('input[name=search]').val('');
         $('input[name=pelanggan]').val('');
-        $('input[name=total]').prop('disabled', 'true');
+        // $('input[name=total]').prop('disabled', 'true');
+        $('#total').text('');
+        $('input[name=bayar]').val('');
         $('input[name=kembalian]').prop('disabled', 'true');
 
         $(document).ready(function() {
@@ -186,6 +188,17 @@
                     });
                 }
             });
+
+            $(document).on('click', '#reset', function() {
+                $('#total').text('');
+                $('input[name=kembalian]').val('');
+                $('input[name=search]').val('');
+                $('input[name=pelanggan]').val('');
+                $('#searchbrg').val('');
+                $('input[name=bayar]').val('');
+                $('#search_data').html('');
+                $('#listData').html('');
+            })
 
             $(document).on('click', '.add', function() {
                 // var id = $(this).attr('id');
@@ -259,12 +272,12 @@
                     console.log(listProduk);
                 });
 
-                var bayar = $('input[name=bayar]').val();
-                var pelanggan = $('input[name=pelanggan]').val();
+                var bayar = parseFloat($('input[name=bayar]').val());
+                var pelanggan = parseFloat($('input[name=pelanggan]').val());
                 var total = $('#total').text();
 
                 if (bayar) {
-                    if (bayar >= total) {
+                    if (!isNaN(bayar) && !isNaN(total) && bayar >= total) {
                         $.ajax({
                             url: '/listBarang',
                             type: 'POST',
@@ -283,10 +296,39 @@
                                     // Redirect pengguna ke URL yang ditentukan
                                     window.location.href = response.redirect;
                                 }
+                                console.log(response.status);
                             },
                             error: function(xhr, status, error) {
                                 // Terjadi kesalahan
-                                console.error(xhr.responseText);
+                                var response = xhr.responseJSON;
+
+                                function getFormattedMessages(messages) {
+                                    var formattedMessages = '<ul>';
+
+                                    messages.forEach(function(message) {
+                                        formattedMessages += '<li>' + message + '</li>';
+                                    });
+
+                                    formattedMessages += '</ul>';
+
+                                    return formattedMessages;
+                                }
+
+                                if (!response.status) {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Peringatan',
+                                        text: response.msg,
+                                        confirmButtonText: 'OK'
+                                    });
+                                } else if (response.status === 'emptyProduk') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Peringatan',
+                                        text: response.msg,
+                                        confirmButtonText: 'OK'
+                                    });
+                                }
                             }
                         });
                     } else {

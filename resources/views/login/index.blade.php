@@ -23,11 +23,11 @@
                                 <div class="card-body">
                                     <h1>Login</h1>
                                     <p class="text-medium-emphasis">Masuk ke akun anda</p>
-                                    @if($errors->any())
+                                    @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <ul>
-                                                @foreach($errors->all() as $item)
-                                                <li>{{$item}}</li>
+                                                @foreach ($errors->all() as $item)
+                                                    <li>{{ $item }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -36,21 +36,27 @@
                                             <svg class="icon">
                                                 <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-user"></use>
                                             </svg></span>
-                                        <input class="form-control" value="{{ old('username' )}}" type="text" name="username" placeholder="Username">
+                                        <input class="form-control" value="{{ old('username') }}" type="text"
+                                            name="username" placeholder="Username">
                                     </div>
                                     <div class="input-group mb-4"><span class="input-group-text">
                                             <svg class="icon">
                                                 <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked">
                                                 </use>
                                             </svg></span>
-                                        <input class="form-control" value="{{ old('password') }}" type="password" name="password" placeholder="Password">
+                                        <input class="form-control" value="{{ old('password') }}" type="password"
+                                            name="password" placeholder="Password">
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
                                             <button class="btn btn-primary px-4" type="submit">Login</button>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <button class="btn btn-link px-0" type="button">Lupa password?</button>
+                                            <button class="btn btn-link px-0" type="button" data-coreui-toggle="tooltip"
+                                                data-coreui-placement="bottom" title="Hubungi Admin">Lupa
+                                                password?</button>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -62,8 +68,8 @@
                                     <h2>Kasir</h2>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                         incididunt ut labore et dolore magna aliqua.</p>
-                                    <button class="btn btn-lg btn-outline-light mt-3" type="button">Register
-                                        Now!</button>
+                                    <button class="btn btn-lg btn-outline-light mt-3" type="button">Selamat
+                                        Datang</button>
                                 </div>
                             </div>
                         </div>
@@ -74,6 +80,11 @@
     </div>
 
     @include('layouts.script')
+
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-coreui-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new coreui.Tooltip(tooltipTriggerEl))
+    </script>
 
 
 </body>

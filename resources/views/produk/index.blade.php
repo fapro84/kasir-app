@@ -296,19 +296,21 @@
                            },
                            error: function(xhr, status, error) {
                                var response = xhr.responseJSON;
+                               response = xhr.responseJSON;
                                if (response && response.errors) {
                                    var errorMessage = '';
                                    $.each(response.errors, function(key, value) {
                                        errorMessage += value[0] +
                                            '\n'; // Menambahkan pesan kesalahan ke variabel errorMessage
+                                       Swal.fire({
+                                           title: errorMessage,
+                                           icon: "warning"
+                                       });
                                    });
-                                   Swal.fire({
-                                       title: errorMessage,
-                                       icon: "warning"
-                                   });
+
                                } else {
                                    Swal.fire({
-                                       title: 'Terjadi kesalahan: ' + error,
+                                       title: 'Terjadi kesalahan: ' + response.msg,
                                        icon: "error"
                                    });
                                }
